@@ -26,7 +26,9 @@ const runCode = () => {
 };
 
 const example = {
-  "hello world": `cetak("Hello World!");`,
+  "hello world": `// selamat datang di bahasa pemrograman KUSMALA
+
+cetak("Hello World!");`,
   fibonacci: `// fungsi rekursif untuk generate barisan fibonacci
 buat fib = fungsi(a, b, limit) {
   jika(a > limit) {
@@ -114,6 +116,7 @@ cetak(array[panjang(array) - 1]); // elemen terakhir
 // initialize option value
 document.getElementById("examples-select").value = "hello world";
 code.value = example["hello world"];
+updateLineNumbers();
 
 document
   .getElementById("examples-select")
