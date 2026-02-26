@@ -1,15 +1,26 @@
-FROM golang:1.24-alpine
+# ---------- Builder Stage ----------
+FROM golang:1.24-alpine AS builder
 
-WORKDIR /usr/src/kusmala-playground
+WORKDIR /app
 
-# pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
 COPY go.mod go.sum ./
-RUN go mod download && go mod verify
+RUN go mod download
 
 COPY . .
-RUN go build -v -o app main.go
+
+# Build static binary
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app main.go
+
+# ---------- Final Runtime Stage ----------
+FROM alpine:latest
+
+WORKDIR /app
+
+# Add CA certificates (needed for HTTPS calls)
+RUN apk add --no-cache ca-certificates
+
+COPY --from=builder /app/ .
 
 EXPOSE 8000
 
 CMD ["./app"]
-
