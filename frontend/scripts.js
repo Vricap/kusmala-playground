@@ -1,7 +1,8 @@
 const code = document.getElementById("code");
 const outputBlock = document.querySelector(".output-block");
 
-let url = "http://localhost:8000";
+// let url = "http://localhost:8000";
+let url = "";
 
 const runCode = () => {
   let codeToRun = code.value;
